@@ -108,3 +108,58 @@ head(BostonHousing)
 # LSTAT: Porcentagem de status inferior da população.
 # MEDV: Valor mediano das residências ocupadas pelos proprietários em milhares de dólares.
 
+# Dimenções da base
+
+dim(BostonHousing)
+
+# Para início da análise vamos dividí-la em 'Treino', 'Separação' e 'Teste'.
+# Pelo código abaixo iremos fazer um 'sorteio' de acordo com a quantidade de linhas presentes na base (506). 
+# Depois o código retorna os valores com 60, 20 e 20% respectivamente de probabilidade com cada uma das divisões mencionadas.
+
+
+set.seed(123)
+separacao <- sample(c('Treino', 'Validação', 'Teste'),
+                    size = nrow(BostonHousing),
+                    replace = TRUE,
+                    prob=c(0.6, 0.2, 0.2))
+
+# Verificando tais 'sorteios' de acordo com as porcentagens, temos:
+table(separacao)
+
+
+# Gerando objetos para treino, validação e teste
+treino    <- BostonHousing[separacao == 'Treino',]
+nrow(treino)
+validacao <- BostonHousing[separacao == 'Validação',]
+nrow(validacao)
+teste     <- BostonHousing[separacao == 'Teste',]
+nrow(teste)
+
+# Realizando a primeira etapa da análise descritiva
+tmp <- BostonHousing
+tmp$crim %>% hist
+tmp$crim_cat <- quantcut(tmp$crim, 5)
+descritiva2("crim_cat", "medv", tmp)
+#Nessa primeira análise podemos observar que quanto maior o índice de criminalidade, menor será o preço do imóvel.
+
+tmp$zn %>% hist
+tmp$zn_cat <- quantcut(tmp$zn, 5)
+descritiva2("zn_cat", "medv", tmp)
+#Aqui, podemos ver que quando o zn é igual a zero, o valor no imóvel é mais baixo.
+
+
+tmp$indus %>% hist
+tmp$indus_cat <- quantcut(tmp$indus, 5)
+descritiva2("indus_cat", "medv", tmp)
+#Já aqui podemos ver no gráfico que conforme o índice de industrialização cai, o preço do imóvel também cai. Porém, indica que volta a subir quando o índice volta a subir mais à frente.
+
+tmp %>% colnames
+
+
+
+
+
+
+
+
+
