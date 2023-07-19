@@ -167,9 +167,7 @@ plot <- rpart.plot::rpart.plot(arvore0,
                                box.palette = paleta)
 
 # Nesse sentido, podemos realizar algumas considerações ao analisar a árvore de decisão
-# Podemos ver, por exemplo, que quando o rm (média de número de quartos por habitação) é maior do que 6,9, temos uma diminuição no preço.
-# Em uma lógica convencional essa análise parece ser contraintuitiva. Desse modo, podemos supor que se trata de conjuntos habitacionais populares ou pensões.
-# De modo contrário, quando há uma média menor do que de 6,9 quartos, temos um aumento do preço nessa região. Indicando desse modo, habitações mais privadas.
+# Podemos ver, por exemplo, que quando o rm (média de número de quartos por habitação) é maior do que 6,9, temos um aumento no preço. A mesma lógica se aplica para quando se tem 7,4 quartos.
 
 # Ainda seguindo o fluxo da árvore, podemos perceber que quando há um Istat (Média de pessoas com baixa renda) maior ou igual a 14 temos uma queda no preço do imóvel.
 # Logicamente, quem possui uma média de renda inferior não vai procurar uma região onde os imóveis são caros.
