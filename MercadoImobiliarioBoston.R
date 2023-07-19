@@ -198,10 +198,18 @@ avalia_regressao(predict(arvore0, validacao), validacao$medv)
 # Desse modo podemos ver que na base de treino temos um R-quadrado de 69%, indicando que o modelo consegue explicar uma boa variabilidade com os dados.
 # Ao testar a base de validação observamos que temos uma pequena queda, onde o modelo explica 55% da variabilidade com os dados.
 
+# A fim de obtermos uma maior complexidade e detalhamento da árvore podemos pedir ao modelo que faça mais uma "dobra" (3), nos retornando mais folhas, conforme abaixo:
 
+arvore1 <- rpart::rpart(medv~., 
+                        data=treino,
+                        control=rpart.control(maxdepth = 3, cp=0))
 
+# Visualizar a árvore
+plot <- rpart.plot::rpart.plot(arvore1,
+                               box.palette = paleta) # Paleta de cores
 
+avalia_regressao(predict(arvore1, treino), treino$medv)
+avalia_regressao(predict(arvore1, validacao), validacao$medv)
 
-
-
+# Podemos observar agora que temos quando tratamos da base de treino e validação, temos um aumento do R-quadrado para 78% e 60%, respectivamente. Indicando uma melhor explicação para o modelo.
 
