@@ -155,6 +155,50 @@ descritiva2("indus_cat", "medv", tmp)
 
 tmp %>% colnames
 
+# Montando uma árvore de decisões temos
+set.seed(123)
+arvore0 <- rpart::rpart(medv~., 
+                        data=treino,
+                        control=rpart.control(maxdepth = 2, cp=0))
+paleta <- scales::viridis_pal(begin=.75, end=1)(20)
+
+# Visualização da árvore
+plot <- rpart.plot::rpart.plot(arvore0,
+                               box.palette = paleta)
+
+# Nesse sentido, podemos realizar algumas considerações ao analisar a árvore de decisão
+# Podemos ver, por exemplo, que quando o rm (média de número de quartos por habitação) é maior do que 6,9, temos uma diminuição no preço.
+# Em uma lógica convencional essa análise parece ser contraintuitiva. Desse modo, podemos supor que se trata de conjuntos habitacionais populares ou pensões.
+# De modo contrário, quando há uma média menor do que de 6,9 quartos, temos um aumento do preço nessa região. Indicando desse modo, habitações mais privadas.
+
+# Ainda seguindo o fluxo da árvore, podemos perceber que quando há um Istat (Média de pessoas com baixa renda) maior ou igual a 14 temos uma queda no preço do imóvel.
+# Logicamente, quem possui uma média de renda inferior não vai procurar uma região onde os imóveis são caros.
+
+
+#Agora iremos aplicar a função para avaliar a árvore
+avalia_regressao <- function(p_var, y_var){
+  n <- length(y_var)
+  SQE <- sum((y_var - p_var)^2)
+  QME <- SQE/n
+  
+  # Cálculo do SSE (Sum of Squares Total)
+  SST <- sum((y_var - mean(y_var, na.rm=TRUE))**2)
+  QMT <- SST/n
+  
+  # Cálculo do R-quadrado
+  R_squared <- 1 - SQE/SST
+  
+  # Imprimindo os resultados
+  cat("SQE: ", SQE, "QME : ", QME, "\n")
+  cat("SST: ", SST, "QMT: ", QMT, "\n")
+  cat("R-quadrado: ", R_squared, "\n")
+  
+}
+avalia_regressao(predict(arvore0, treino), treino$medv)
+avalia_regressao(predict(arvore0, validacao), validacao$medv)
+
+# Desse modo podemos ver que na base de treino temos um R-quadrado de 69%, indicando que o modelo consegue explicar uma boa variabilidade com os dados.
+# Ao testar a base de validação observamos que temos uma pequena queda, onde o modelo explica 55% da variabilidade com os dados.
 
 
 
