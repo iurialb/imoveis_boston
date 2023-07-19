@@ -213,3 +213,13 @@ avalia_regressao(predict(arvore1, validacao), validacao$medv)
 
 # Podemos observar agora que temos quando tratamos da base de treino e validação, temos um aumento do R-quadrado para 78% e 60%, respectivamente. Indicando uma melhor explicação para o modelo.
 
+# Poderíamos continuar pedindo mais "dobras" para o modelo e aumentar o nível de complexidade de detalhamento, porém, fazer "dobras" demais pode onerar um pouco o nosso senso de interpretação da árvore, dificultando uma análise mais enxuta.
+
+# Nesse sentido, com o objetivo apenas de analisar o poder de explicação do nosso modelo por meio do r-quadrado, encerramos a análise com uma árvore de 3 "dobras" para explicação dos preços e habitação dos imóveis da região de Boston.
+
+
+
+
+
+
+
